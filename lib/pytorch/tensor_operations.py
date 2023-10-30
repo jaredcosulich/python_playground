@@ -14,3 +14,21 @@ def create_tensor(data, dtype=None, device=None, requires_grad=False):
     torch.Tensor: The created tensor.
     """
     return torch.tensor(data, dtype=dtype, device=device, requires_grad=requires_grad)
+
+
+def perform_operations(tensor):
+    """
+    Performs various tensor operations: indexing, slicing, joining, and mutating.
+
+    Parameters:
+    tensor (torch.Tensor): The input tensor.
+
+    Returns:
+    dict: A dictionary containing the resulting tensors from various operations.
+    """
+    result = {
+        'indexed': tensor[0, :],        # Indexing
+        'sliced': tensor[:, :2],        # Slicing
+        'joined': torch.cat((tensor, tensor), dim=0),  # Joining
+    }
+    return result
