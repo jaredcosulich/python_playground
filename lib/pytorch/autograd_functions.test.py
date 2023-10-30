@@ -1,6 +1,6 @@
 import unittest
 import torch
-from autograd_functions import compute_gradient
+from autograd_functions import compute_gradient, analyze_graph
 
 class TestAutogradFunctions(unittest.TestCase):
 
@@ -24,6 +24,14 @@ class TestAutogradFunctions(unittest.TestCase):
         expected_gradient = torch.tensor(216.0)
         self.assertTrue(torch.equal(gradient, expected_gradient))
 
+    def test_analyze_graph(self):
+        # Define a simple function f(x) = x^2
+        def f(x):
+            return x ** 2
+
+        x = torch.tensor(3.0)
+        backward_function = analyze_graph(f, x)
+        self.assertEqual(backward_function.__class__.__name__, 'PowBackward0')
 
 
 if __name__ == '__main__':
