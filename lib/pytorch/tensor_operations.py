@@ -32,3 +32,17 @@ def perform_operations(tensor):
         'joined': torch.cat((tensor, tensor), dim=0),  # Joining
     }
     return result
+
+
+def transfer_tensor(tensor, device):
+    """
+    Transfers a tensor to the specified device.
+
+    Parameters:
+    tensor (torch.Tensor): The input tensor.
+    device (torch.device): The target device.
+
+    Returns:
+    torch.Tensor: The tensor on the target device.
+    """
+    return tensor.to(device)

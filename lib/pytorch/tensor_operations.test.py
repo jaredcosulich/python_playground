@@ -1,6 +1,6 @@
 import unittest
 import torch
-from tensor_operations import create_tensor, perform_operations
+from tensor_operations import create_tensor, perform_operations, transfer_tensor
 
 class TestTensorOperations(unittest.TestCase):
 
@@ -32,6 +32,22 @@ class TestTensorOperations(unittest.TestCase):
         }
         for key in expected_result:
             self.assertTrue(torch.equal(result[key], expected_result[key]))
+
+    @unittest.skipUnless(torch.cuda.is_available(), "CUDA is not available")
+    def test_transfer_tensor(self):
+        tensor = torch.tensor([[1, 2], [3, 4]], dtype=torch.float32)
+        if torch.cuda.is_available():
+            device = torch.device('cuda')
+            transferred_tensor = transfer_tensor(tensor, device)
+            self.assertTrue(transferred_tensor.is_cuda)
+            # Transfer back to CPU
+            device = torch.device('cpu')
+            transferred_tensor = transfer_tensor(transferred_tensor, device)
+            self.assertFalse(transferred_tensor.is_cuda)
+        else:
+            with self.assertRaises(RuntimeError):
+                device = torch.device('cuda')
+                transfer_tensor(tensor, device)
 
 if __name__ == '__main__':
     unittest.main()
