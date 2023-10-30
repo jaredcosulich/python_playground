@@ -27,9 +27,11 @@ def perform_operations(tensor):
     dict: A dictionary containing the resulting tensors from various operations.
     """
     result = {
-        'indexed': tensor[0, :],        # Indexing
-        'sliced': tensor[:, :2],        # Slicing
-        'joined': torch.cat((tensor, tensor), dim=0),  # Joining
+        'indexed': tensor[0, :],        # Indexing [[1, 2, 3], [4, 5, 6]] -> [1, 2, 3]
+        'sliced': tensor[:, :2],        # Slicing [[1, 2, 3], [4, 5, 6]] -> [[1, 2], [4, 5]]
+        'joined': torch.cat(
+            (tensor, tensor), dim=0
+        ),  # Joining [[1, 2, 3], [4, 5, 6]] -> [[1, 2, 3], [4, 5, 6], [1, 2, 3], [4, 5, 6]]
     }
     return result
 
