@@ -1,6 +1,6 @@
 import unittest
 import torch
-from tensor_operations import create_tensor, perform_operations, transfer_tensor
+from .tensor_operations import create_tensor, perform_operations, transfer_tensor
 
 class TestTensorOperations(unittest.TestCase):
 

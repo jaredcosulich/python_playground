@@ -1,6 +1,6 @@
 import unittest
 import torch
-from activation_functions import relu_activation, sigmoid_activation, tanh_activation
+from .activation_functions import relu_activation, sigmoid_activation, tanh_activation
 
 class TestActivationFunctions(unittest.TestCase):
 

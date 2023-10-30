@@ -1,6 +1,6 @@
 import unittest
 import torch
-from autograd_functions import compute_gradient, analyze_graph
+from .autograd_functions import compute_gradient, analyze_graph
 
 class TestAutogradFunctions(unittest.TestCase):
 

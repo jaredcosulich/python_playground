@@ -1,6 +1,6 @@
 import unittest
 import torch
-from matrix_multiplication import matrix_multiplication
+from .matrix_multiplication import matrix_multiplication
 
 class TestMatrixMultiplication(unittest.TestCase):
     def test_matrix_multiplication_simple(self):

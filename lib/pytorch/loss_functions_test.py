@@ -1,6 +1,6 @@
 import unittest
 import torch
-from loss_functions import mse_loss, cross_entropy_loss
+from .loss_functions import mse_loss, cross_entropy_loss
 
 class TestLossFunctions(unittest.TestCase):
 

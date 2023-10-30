@@ -4,6 +4,10 @@ This is a series of small functions demonstrating common techniques in AI softwa
 
 Each function demonstrates something relatively simple and has associated tests.
 
-All tests can be run with:
+All tests are located next to the file containing the functions and can be run with:
 
-python -m unittest discover 
+pytest path/to/test_file.py
+
+Or to run all tests:
+
+pytest **/*_test.py
