@@ -5,6 +5,7 @@ from lib.linear_regression import linear_regression
 from lib.ridge_regression import ridge_regression
 from lib.elastic_net_regression import elastic_net_regression
 from lib.random_forest_regression import random_forest_regression
+from lib.gradient_boost import gradient_boost_regression
 
 def main():
     # Load the data
@@ -20,6 +21,7 @@ def main():
     ridge_regression(X, y, preprocessor)
     elastic_net_regression(X, y, preprocessor)
     random_forest_regression(X, y, preprocessor)    
+    gradient_boost_regression(X, y, preprocessor)
 
 
 main()
