@@ -9,7 +9,7 @@ from lib.random_forest_regression import random_forest_regression
 from lib.gradient_boost import gradient_boost_regression
 from lib.deep_learning import deep_learning
 from lib.plot import plot
-from lib.CustomPreprocessor import CustomPreprocessor
+from lib.utils import analyze_feature_distributions, preprocessing_recommendations
 
 def main():
     plt.figure(figsize=(10, 5))
@@ -23,18 +23,22 @@ def main():
     # Preprocess the training data
     (X, y, preprocessor) = preprocess(data)
 
+    summary = analyze_feature_distributions(X)
+    # recs = preprocessing_recommendations(summary)
+    # print(recs)
+
     # linear_regression(X, y, preprocessor)
     # ridge_regression(X, y, preprocessor)
     # elastic_net_regression(X, y, preprocessor)
     # random_forest_regression(X, y, preprocessor)
     # random_forest_regression(X, y, preprocessor, with_grid_search=True)    
     (y_test_gb, y_pred_gb) = gradient_boost_regression(X, y, preprocessor)
-    # (y_test_nn, y_pred_nn) = deep_learning(X, y, preprocessor)
+    (y_test_nn, y_pred_nn) = deep_learning(X, y, preprocessor)
 
     plot(plt, 1, y_test_gb, y_pred_gb, 'Gradient Boost', 'green')
-    # plot(plt, 2, y_test_nn, y_pred_nn, 'Neural Network', 'red')
+    plot(plt, 2, y_test_nn, y_pred_nn, 'Neural Network', 'red')
     
-    # plt.tight_layout()
-    # plt.show()
+    plt.tight_layout()
+    plt.show()
 
 main()
