@@ -1,12 +1,14 @@
 import pandas as pd
 # from lib.analyze import analyze
 from lib.preprocess import preprocess
-from lib.learn import learn
+from lib.linear_regression import linear_regression
+from lib.ridge_regression import ridge_regression
+from lib.elastic_net_regression import elastic_net_regression
+from lib.random_forest_regression import random_forest_regression
 
 def main():
     # Load the data
     data = pd.read_csv('train.csv')
-    # data_test = pd.read_csv('test.csv')
 
     # Analyze the data
     # analyze(data_train)
@@ -14,10 +16,10 @@ def main():
     # Preprocess the training data
     (X, y, preprocessor) = preprocess(data)
 
-    # Preprocess the testing data
-    # (X_test, y_test) = preprocess(data_test)
-
-    learn(X, y, preprocessor)
+    linear_regression(X, y, preprocessor)
+    ridge_regression(X, y, preprocessor)
+    elastic_net_regression(X, y, preprocessor)
+    random_forest_regression(X, y, preprocessor)    
 
 
 main()
