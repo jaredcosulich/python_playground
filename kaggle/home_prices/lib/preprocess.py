@@ -2,6 +2,7 @@ from sklearn.impute import SimpleImputer, KNNImputer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
+from lib.KNNCategoricalImputer import KNNCategoricalImputer
 
 def preprocess(data):
     data.drop('Id', axis=1, inplace=True) 
@@ -14,12 +15,12 @@ def preprocess(data):
 
     # Define preprocessors for numerical and categorical data
     num_preprocessor = Pipeline([
-        ('imputer', KNNImputer()),
+        ('imputer', KNNImputer(n_neighbors=5)),
         ('scaler', StandardScaler())
     ])
 
     cat_preprocessor = Pipeline([
-        ('imputer', SimpleImputer(strategy='constant', fill_value='missing')),
+        ('imputer', KNNCategoricalImputer(n_neighbors=5)),
         ('encoder', OneHotEncoder(handle_unknown='ignore'))
     ])
 
