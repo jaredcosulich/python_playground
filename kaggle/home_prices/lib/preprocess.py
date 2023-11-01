@@ -1,4 +1,4 @@
-from sklearn.impute import SimpleImputer
+from sklearn.impute import SimpleImputer, KNNImputer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
@@ -14,7 +14,7 @@ def preprocess(data):
 
     # Define preprocessors for numerical and categorical data
     num_preprocessor = Pipeline([
-        ('imputer', SimpleImputer(strategy='mean')),
+        ('imputer', KNNImputer()),
         ('scaler', StandardScaler())
     ])
 
