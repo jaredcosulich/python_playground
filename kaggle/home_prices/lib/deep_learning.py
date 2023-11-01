@@ -44,13 +44,13 @@ def deep_learning(X, y, preprocessor):
 
     # Define loss function and optimizer
     criterion = nn.MSELoss()
-    optimizer = optim.RMSprop(model.parameters(), lr=1)  # Higher initial learning rate
+    optimizer = optim.RMSprop(model.parameters(), lr=0.1)  # Higher initial learning rate
 
     # Define learning rate scheduler
-    scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.95)  # 5% reduction per epoch
+    scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.98)  # 1% reduction per epoch
 
     # Train model
-    num_epochs = 100
+    num_epochs = 500
     for epoch in range(num_epochs):
         for batch_x, batch_y in train_loader:
             # Zero the parameter gradients
@@ -64,7 +64,7 @@ def deep_learning(X, y, preprocessor):
         # Step the learning rate scheduler
         scheduler.step()
         # Print loss and learning rate for every epoch
-        print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}, Learning Rate: {scheduler.get_last_lr()[0]:.6f}')
+        # print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}, Learning Rate: {scheduler.get_last_lr()[0]:.6f}')
 
 
     # Evaluate model (optional)

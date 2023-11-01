@@ -15,3 +15,5 @@ def gradient_boost_regression(X, y, preprocessor):
     score = xgb_pipeline.score(X_test, y_test)
     print(f'Gradient Boost Regression R^2 score: {score}')
 
+    y_pred = xgb_pipeline.predict(X_test)
+    return (y_test, y_pred)

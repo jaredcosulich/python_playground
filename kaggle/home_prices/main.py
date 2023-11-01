@@ -11,6 +11,8 @@ from lib.deep_learning import deep_learning
 from lib.plot import plot
 
 def main():
+    plt.figure(figsize=(10, 5))
+
     # Load the data
     data = pd.read_csv('train.csv')
 
@@ -25,13 +27,13 @@ def main():
     # elastic_net_regression(X, y, preprocessor)
     # random_forest_regression(X, y, preprocessor)
     # random_forest_regression(X, y, preprocessor, with_grid_search=True)    
-    # gradient_boost_regression(X, y, preprocessor)
+    (y_test_gb, y_pred_gb) = gradient_boost_regression(X, y, preprocessor)
     (y_test_nn, y_pred_nn) = deep_learning(X, y, preprocessor)
 
-    plt.figure(figsize=(10, 5))
+    plot(plt, 1, y_test_gb, y_pred_gb, 'Gradient Boost', 'green')
     plot(plt, 2, y_test_nn, y_pred_nn, 'Neural Network', 'red')
     
-    plt.tight_layout()
-    plt.show()
+    # plt.tight_layout()
+    # plt.show()
 
 main()
