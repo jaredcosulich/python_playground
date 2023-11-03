@@ -3,8 +3,10 @@ import seaborn as sns
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.model_selection import learning_curve
-from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import learning_curve, cross_val_score, GridSearchCV
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import LabelEncoder
+
 
 def plot_feature_distribution(df, feature_name):
     """
@@ -105,6 +107,25 @@ def plot_residuals(y_true, y_pred):
     sns.histplot(residuals)
     plt.title('Residuals Distribution')
     plt.show()
+
+def cross_validation_feature_selection(data, target, feature_subsets):
+    """
+    Perform cross-validation to select the best subset of features.
+    
+    Parameters:
+    data (pd.DataFrame): The dataset.
+    target (str): The target variable.
+    feature_subsets (list): A list of feature subsets to evaluate.
+    
+    Returns:
+    tuple: The best feature subset.
+    """
+    scores = {}
+    for features in feature_subsets:
+        model = LinearRegression()
+        score = cross_val_score(model, data[features], data[target], cv=5, scoring='neg_mean_squared_error')
+        scores[tuple(features)] = np.mean(score)
+    return max(scores, key=scores.get)
 
 
 def analyze_feature_distributions(df, threshold_skewness=0.5):
@@ -209,3 +230,42 @@ def preprocessing_recommendations(summary_df, skew_threshold=0.5, high_std_dev_m
             })
 
     return recommendations, grouped_features
+
+def feature_importance_rf(data, target):
+    """
+    Calculate feature importance using a Random Forest regressor.
+    
+    Parameters:
+    data (pd.DataFrame): The dataset.
+    target (str): The target variable.
+    
+    Returns:
+    pd.DataFrame: A dataframe with feature names and their importance scores, sorted in descending order.
+    """
+    from sklearn.ensemble import RandomForestRegressor
+    from sklearn.preprocessing import LabelEncoder
+    from sklearn.impute import SimpleImputer
+    
+    # Handle missing values
+    imputer = SimpleImputer(strategy='mean')
+    data = data.copy()
+    data[data.select_dtypes(exclude='object').columns] = imputer.fit_transform(data.select_dtypes(exclude='object'))
+    
+    # Handle categorical features
+    cat_cols = data.select_dtypes(include='object').columns
+    label_encoders = {}
+    for col in cat_cols:
+        encoder = LabelEncoder()
+        data[col] = encoder.fit_transform(data[col].astype(str))
+        label_encoders[col] = encoder
+    
+    # Train Random Forest regressor
+    rf = RandomForestRegressor()
+    rf.fit(data.drop(target, axis=1), data[target])
+    
+    # Calculate feature importances
+    importances = rf.feature_importances_
+    feature_names = data.drop(target, axis=1).columns
+    importance_df = pd.DataFrame({'Feature': feature_names, 'Importance': importances})
+    
+    return importance_df.sort_values(by='Importance', ascending=False), label_encoders
